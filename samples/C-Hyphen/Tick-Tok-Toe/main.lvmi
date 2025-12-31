@@ -1,0 +1,101 @@
+using std;
+
+println("Loading Tic-Tok Toe example...");
+
+#Include "board.lvmi"
+#Include "logic.lvmi"
+
+static func main() {
+    println("Enter 0-8 to place a mark. Type -1 to quit a round.");
+    var vsRobot = askYesNo("Play against the robot? (y/n): ");
+    var userMark = "X";
+    var robotMark = "O";
+    var userStarts = true;
+    var doClear = true;
+
+    if (vsRobot) {
+        userStarts = askYesNo("Do you want to go first as X? (y/n): ");
+        if (!userStarts) {
+            userMark = "O";
+            robotMark = "X";
+        }
+    }
+
+    var xWins = 0;
+    var oWins = 0;
+    var draws = 0;
+    var keepPlaying = true;
+
+    while (keepPlaying) {
+        var board = createBoard();
+        var current = userMark;
+        if (!userStarts) {
+            current = robotMark;
+        }
+        var winner = " ";
+
+        while (true) {
+            if (doClear) { std.clear(); }
+            println("");
+            printBoard(board);
+            var move = -1;
+
+            if (vsRobot && current == robotMark) {
+                move = chooseRobotMove(board, robotMark, userMark);
+                println("Robot (" + robotMark + ") chooses " + move);
+            } else {
+                move = promptMove(current, board);
+                if (move < 0) { println("Round aborted."); break; }
+            }
+
+            if (!applyMove(board, move, current)) {
+                println("Spot taken. Try again.");
+                continue;
+            }
+
+            if (checkWin(board, current)) {
+                winner = current;
+                std.clear();
+                break;
+            }
+            if (isDraw(board)) {
+                winner = " ";
+                break;
+            }
+            if (current == "X") { current = "O"; } else { current = "X"; }
+        }
+
+        println("");
+        printBoard(board);
+        if (winner == "X") { xWins = xWins + 1; println("Winner: X"); }
+        else if (winner == "O") { oWins = oWins + 1; println("Winner: O"); }
+        else { draws = draws + 1; println("Draw game."); }
+
+        println("");
+        println("Score  X:" + xWins + "  O:" + oWins + "  Draws:" + draws);
+        keepPlaying = askYesNo("Play again? (y/n): ");
+    }
+
+    println("Thanks for playing!");
+}
+
+static func promptMove(string current, var board) {
+    while (true) {
+        var raw = std.readint(current + " move (0-8, -1 to quit): ");
+        var move = raw;
+        if (move == -1) return -1;
+        if (move >= 0 && move < std.len(board)) return move;
+        println("Enter a number between 0 and 8.");
+    }
+}
+
+static func askYesNo(string prompt) {
+    while (true) {
+        var reply = std.readln(prompt);
+        if (reply == "y" || reply == "Y" || reply == "yes" || reply == "YES") return true;
+        if (reply == "n" || reply == "N" || reply == "no" || reply == "NO") return false;
+        println("Please answer y or n.");
+    }
+}
+
+main();
