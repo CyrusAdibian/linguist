@@ -1,0 +1,235 @@
+{
+  "name": "C-Hyphen",
+  "scopeName": "source.lvmi",
+  "fileTypes": [
+    "lvmi"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#preprocessor"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.lvmi",
+          "begin": "//",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.lvmi"
+            }
+          },
+          "end": "$\\n?"
+        },
+        {
+          "name": "comment.block.lvmi",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.lvmi"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.lvmi"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\*/",
+              "name": "invalid.illegal.stray-end-of-comment.lvmi"
+            }
+          ]
+        }
+      ]
+    },
+    "preprocessor": {
+      "patterns": [
+        {
+          "name": "meta.preprocessor.include.lvmi",
+          "begin": "^\\s*(#\\s*(?:Include|include))\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.import.lvmi"
+            }
+          },
+          "end": "$",
+          "patterns": [
+            {
+              "match": "\"[^\"]*\"",
+              "name": "string.quoted.double.lvmi"
+            },
+            {
+              "match": "\\S+",
+              "name": "string.unquoted.lvmi"
+            }
+          ]
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.lvmi",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.lvmi"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.lvmi"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.lvmi"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.lvmi",
+          "begin": "'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.lvmi"
+            }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.lvmi"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.lvmi"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.lvmi",
+          "match": "\\b\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.lvmi",
+          "match": "\\b(?i:(if|else|for|while|switch|case|default|break|continue|try|catch|finally|throw|return|async|await|yield|debugger))\\b"
+        },
+        {
+          "name": "keyword.declaration.lvmi",
+          "match": "\\b(?i:(class|enum|interface|func|function|static|public|private|protected|abstract|final|const|mut|extends|implements|import|package|using|inject|insert|isasync|unique|shared|system|out|any|endl))\\b"
+        },
+        {
+          "name": "keyword.operator.new.lvmi",
+          "match": "\\b(?i:new)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.lvmi",
+          "match": "\\b(?i:(void|int|float|double|bool|boolean|string|char|character|byte|short|long|uint|ulong|ushort|sbyte|decimal|text|object|dynamic|unit|var|let|cost|super|this))\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.lvmi",
+          "match": "\\b(?i:(true|false|null))\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.lvmi",
+          "match": ">>>?=|>>=?|<<=?|\\+\\+|--|==|!=|<=|>=|&&|\\|\\||->|=>|\\+=|-=|\\*=|/=|%=|&=|\\|=|\\^=|\\+|-|\\*|/|%|=|!|<|>|&|\\||\\^|~"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.section.block.begin.lvmi",
+          "match": "\\{"
+        },
+        {
+          "name": "punctuation.section.block.end.lvmi",
+          "match": "\\}"
+        },
+        {
+          "name": "punctuation.section.parens.begin.lvmi",
+          "match": "\\("
+        },
+        {
+          "name": "punctuation.section.parens.end.lvmi",
+          "match": "\\)"
+        },
+        {
+          "name": "punctuation.section.brackets.begin.lvmi",
+          "match": "\\["
+        },
+        {
+          "name": "punctuation.section.brackets.end.lvmi",
+          "match": "\\]"
+        },
+        {
+          "name": "punctuation.separator.delimiter.lvmi",
+          "match": ";|,"
+        },
+        {
+          "name": "punctuation.accessor.lvmi",
+          "match": "\\."
+        },
+        {
+          "name": "punctuation.definition.parameters.lvmi",
+          "match": ":"
+        },
+        {
+          "name": "punctuation.other.lvmi",
+          "match": "\\?|#|\\$"
+        }
+      ]
+    }
+  }
+}
